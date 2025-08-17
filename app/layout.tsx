@@ -19,8 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
+      <body className="min-h-screen antialiased">
+        <main className="flex-1">{children}</main>
         <Toaster richColors closeButton />
         <SpeedInsights />
         <Analytics />
