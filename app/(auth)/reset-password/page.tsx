@@ -11,36 +11,41 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const formSchema = z.object({
-  email: z.string().email(),
-});
+const formSchema = z
+  .object({
+    password: z.string().min(8, "Minimum 8 characters long"),
+    confirmPassword: z.string().min(8, "Minimum 8 characters long"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
-export default function ForgotPasswordPage() {
+export default function SignupPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      email: "",
+      password: "",
+      confirmPassword: "",
     },
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-    // TODO: Call your forgot password API here
+    console.log("Password updated:", data.password);
+    // TODO: Call your reset password API here
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4.5">
       <div className="max-w-sm w-full flex flex-col items-center">
         <h1 className="mt-4 text-2xl font-bold tracking-tight">
-          Forgot your password?
+          Reset Password
         </h1>
         <p className="text-muted-foreground">
-          Please enter your email address and we&apos;ll send you a link to
-          reset your password
+          Please fill in the form below to reset your password
         </p>
 
         <Form {...form}>
@@ -50,29 +55,35 @@ export default function ForgotPasswordPage() {
           >
             <FormField
               control={form.control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>New Password</FormLabel>
                   <FormControl>
-                    <Input type="email" className="w-full py-5" {...field} />
+                    <Input type="password" className="w-full py-5" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" className="w-full py-5" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button type="submit" className="mt-4 w-full py-5">
-              Send reset link
+              Update Password
             </Button>
           </form>
         </Form>
-
-        <p className="mt-5 text-sm text-center">
-          <Link href="/login" className="pl-1 underline text-muted-foreground">
-            Back to sign in
-          </Link>
-        </p>
       </div>
     </div>
   );
