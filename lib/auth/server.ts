@@ -3,6 +3,10 @@ import { nextCookies } from "better-auth/next-js";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
 import { sendMail } from "@/lib/mailer";
+import { ForgotPasswordEmail } from "@/emails/ForgotPasswordEmail";
+import { ResetSuccessEmail } from "@/emails/ResetSuccessEmail";
+import { VerificationEmail } from "@/emails/VerificationEmail";
+import { ApproveEmailChangeEmail } from "@/emails/ApproveEmailChangeEmail";
 
 export const auth = betterAuth({
   trustedOrigins: [process.env.NEXT_PUBLIC_BASE_URL!],
@@ -25,14 +29,14 @@ export const auth = betterAuth({
       await sendMail({
         to: user.email,
         subject: "Reset your password",
-        html: `<p>Click the link to reset your password: ${url} </p>`,
+        react: ForgotPasswordEmail({ name: user.name ?? user.email, url }),
       });
     },
     onPasswordReset: async ({ user }) => {
       await sendMail({
         to: user.email,
         subject: "Password Reset Success",
-        html: `<p>Password for user ${user.email} has been reset.</p>`,
+        react: ResetSuccessEmail({ name: user.name ?? user.email }),
       });
     },
   },
@@ -41,7 +45,7 @@ export const auth = betterAuth({
       await sendMail({
         to: user.email,
         subject: "Verify your email address",
-        html: `<p>Click the link to verify your email: ${url} </p>`,
+        react: VerificationEmail({ name: user.name ?? user.email, url }),
       });
     },
     sendOnSignUp: true,
@@ -54,7 +58,11 @@ export const auth = betterAuth({
         await sendMail({
           to: user.email,
           subject: "Approve email change",
-          html: `<p>Your email have been changed to ${newEmail}. Click the link to approve the change: ${url} </p>`,
+          react: ApproveEmailChangeEmail({
+            name: user.name ?? user.email,
+            newEmail,
+            url,
+          }),
         });
       },
     },
