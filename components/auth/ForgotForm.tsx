@@ -35,7 +35,7 @@ export function ForgotPasswordForm() {
     await authClient.requestPasswordReset(
       {
         email: data.email,
-        redirectTo: "/login",
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`,
       },
       {
         onRequest: () => {
@@ -53,7 +53,7 @@ export function ForgotPasswordForm() {
           setLoading(false);
           toast.error(ctx.error.message);
         },
-      }
+      },
     );
   };
 
@@ -97,7 +97,7 @@ export function ForgotPasswordForm() {
               className="mt-4 w-full py-5"
               disabled={loading}
             >
-              Send reset link
+              {loading ? "Sending..." : "Send reset link"}
             </Button>
           </form>
         </Form>

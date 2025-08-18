@@ -57,7 +57,7 @@ export function LoginForm() {
           setLoading(false);
           toast.error(ctx.error.message);
         },
-      }
+      },
     );
   };
 
@@ -78,7 +78,7 @@ export function LoginForm() {
           setLoading(false);
           toast.error(ctx.error.message);
         },
-      }
+      },
     );
   };
 
@@ -187,7 +187,7 @@ export function LoginForm() {
               className="mt-4 w-full py-5"
               disabled={loading}
             >
-              Continue with Email
+              {loading ? "Loading..." : "Continue with Email"}
             </Button>
           </form>
         </Form>

@@ -11,6 +11,11 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  account: {
+    accountLinking: {
+      enabled: true,
+    },
+  },
   emailAndPassword: {
     enabled: true,
     autoSignIn: false,
@@ -39,6 +44,8 @@ export const auth = betterAuth({
         html: `<p>Click the link to verify your email: ${url} </p>`,
       });
     },
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
   },
   socialProviders: {
     github: {

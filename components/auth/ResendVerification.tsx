@@ -11,54 +11,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { authClient } from "@/lib/auth/client";
 import { toast } from "sonner";
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 
-const formSchema = z
-  .object({
-    newPassword: z.string().min(8, "Minimum 8 characters long"),
-    confirmPassword: z.string().min(8, "Minimum 8 characters long"),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+const formSchema = z.object({
+  email: z.string().email(),
+});
 
-export function ResetPasswordForm() {
+export function ResendVerificationForm() {
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const router = useRouter();
-
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      newPassword: "",
-      confirmPassword: "",
+      email: "",
     },
     resolver: zodResolver(formSchema),
   });
 
-  if (!token) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4.5">
-        <p className="text-red-500 text-center">
-          Missing token in the URL. Please check the link you received.
-        </p>
-      </div>
-    );
-  }
-
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    await authClient.resetPassword(
+    await authClient.sendVerificationEmail(
       {
-        newPassword: data.newPassword, // required
-        token, // required
+        email: data.email,
+        callbackURL: "/login",
       },
-
       {
         onRequest: () => {
           setLoading(true);
@@ -67,8 +45,7 @@ export function ResetPasswordForm() {
           setLoading(false);
         },
         onSuccess: () => {
-          toast.success("Password updated successfully.");
-          router.push("/login");
+          toast.success("Verification email sent successfully");
         },
         onError: (ctx) => {
           setLoading(false);
@@ -82,10 +59,11 @@ export function ResetPasswordForm() {
     <div className="min-h-screen flex items-center justify-center px-4.5">
       <div className="max-w-sm w-full flex flex-col items-center">
         <h1 className="mt-4 text-2xl font-bold tracking-tight">
-          Reset Password
+          Resend Verification Email
         </h1>
         <p className="text-muted-foreground">
-          Please fill in the form below to reset your password
+          Please enter your email address and we&apos;ll send you a link to
+          resend your verification email
         </p>
 
         <Form {...form}>
@@ -95,13 +73,13 @@ export function ResetPasswordForm() {
           >
             <FormField
               control={form.control}
-              name="newPassword"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      type="password"
+                      type="email"
                       className="w-full py-5"
                       {...field}
                       disabled={loading}
@@ -111,33 +89,22 @@ export function ResetPasswordForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      className="w-full py-5"
-                      {...field}
-                      disabled={loading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <Button
               type="submit"
               className="mt-4 w-full py-5"
               disabled={loading}
             >
-              {loading ? "Resetting..." : "Reset Password"}
+              {loading ? "Sending..." : "Resend Verification Email"}
             </Button>
           </form>
         </Form>
+
+        <p className="mt-5 text-sm text-center">
+          <Link href="/login" className="pl-1 underline text-muted-foreground">
+            Back to sign in
+          </Link>
+        </p>
       </div>
     </div>
   );
