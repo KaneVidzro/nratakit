@@ -12,6 +12,8 @@ export const auth = betterAuth({
   account: {
     accountLinking: {
       enabled: true,
+      trustedProviders: ["google", "github"],
+      allowUnlinkingAll: true,
     },
   },
   emailAndPassword: {
@@ -44,6 +46,18 @@ export const auth = betterAuth({
     },
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
+  },
+  user: {
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async ({ user, newEmail, url }) => {
+        await sendMail({
+          to: user.email,
+          subject: "Approve email change",
+          html: `<p>Your email have been changed to ${newEmail}. Click the link to approve the change: ${url} </p>`,
+        });
+      },
+    },
   },
   socialProviders: {
     github: {
