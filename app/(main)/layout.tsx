@@ -1,11 +1,12 @@
+import React from "react";
 import { Footer } from "@/components/widgets/footer";
 import { Header } from "@/components/widgets/header";
 
-interface MainLayoutProps {
+export default async function MainLayout({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-export default function MainLayout({ children }: MainLayoutProps) {
+}) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

@@ -19,10 +19,12 @@ import { z } from "zod";
 import { signIn } from "@/lib/auth/client";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Minimum 8 characters long"),
+  rememberMe: z.boolean().optional(),
 });
 
 export function LoginForm() {
@@ -32,6 +34,7 @@ export function LoginForm() {
     defaultValues: {
       email: "",
       password: "",
+      rememberMe: false,
     },
     resolver: zodResolver(formSchema),
   });
@@ -41,6 +44,7 @@ export function LoginForm() {
       {
         email: data.email,
         password: data.password,
+        rememberMe: data.rememberMe,
         callbackURL: "/account",
       },
       {
@@ -66,6 +70,7 @@ export function LoginForm() {
       {
         provider,
         callbackURL: "/account",
+        // newUserCallbackURL: "/new-user",
       },
       {
         onRequest: () => {
@@ -179,6 +184,23 @@ export function LoginForm() {
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="rememberMe"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-2">
+                  <Checkbox
+                    id="rememberMe"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={loading}
+                    className="border border-primary"
+                  />
+
+                  <FormLabel className="text-sm">Remember me</FormLabel>
                 </FormItem>
               )}
             />

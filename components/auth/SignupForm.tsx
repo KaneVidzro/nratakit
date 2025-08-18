@@ -73,6 +73,7 @@ export function SignupForm() {
       {
         provider,
         callbackURL: "/account",
+        // newUserCallbackURL: "/new-user",
       },
       {
         onRequest: () => {

@@ -17,6 +17,7 @@ import { z } from "zod";
 import { authClient } from "@/lib/auth/client";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -24,6 +25,8 @@ const formSchema = z.object({
 
 export function ForgotPasswordForm() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -35,7 +38,7 @@ export function ForgotPasswordForm() {
     await authClient.requestPasswordReset(
       {
         email: data.email,
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`,
+        redirectTo: "/reset-password",
       },
       {
         onRequest: () => {
@@ -48,6 +51,7 @@ export function ForgotPasswordForm() {
           toast.info("If the email exists, you will receive an email", {
             duration: 10000, // Show for 10 seconds
           });
+          router.push("/login");
         },
         onError: (ctx) => {
           setLoading(false);
