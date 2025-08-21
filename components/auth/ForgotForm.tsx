@@ -68,8 +68,7 @@ export function ForgotPasswordForm() {
           Forgot your password?
         </h1>
         <p className="text-muted-foreground">
-          Please enter your email address and we&apos;ll send you a link to
-          reset your password
+          Enter your email to get a password reset link.
         </p>
 
         <Form {...form}>

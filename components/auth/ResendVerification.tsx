@@ -62,8 +62,7 @@ export function ResendVerificationForm() {
           Resend Verification Email
         </h1>
         <p className="text-muted-foreground">
-          Please enter your email address and we&apos;ll send you a link to
-          resend your verification email
+          Enter your email to receive the verification email again.
         </p>
 
         <Form {...form}>

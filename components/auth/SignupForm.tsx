@@ -97,7 +97,7 @@ export function SignupForm() {
           Create an account
         </h1>
         <p className="text-muted-foreground">
-          Please fill in the form below to create your account
+          Fill in your details below to create an account.
         </p>
 
         <div className="grid gap-2 grid-cols-2 w-full mt-8">

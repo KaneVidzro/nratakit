@@ -94,7 +94,7 @@ export function LoginForm() {
           Welcome back! 👋
         </h1>
         <p className="text-muted-foreground">
-          Enter your data below to login to your account.
+          Enter your credentials below to sign in.
         </p>
 
         <div className="grid gap-2 grid-cols-2 w-full mt-8">
