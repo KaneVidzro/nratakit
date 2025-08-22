@@ -80,7 +80,10 @@ export const ForgotPasswordForm = () => {
         </Form>
 
         <p className="mt-5 text-sm text-center">
-          <Link href="/login" className="pl-1 underline text-muted-foreground">
+          <Link
+            href="/auth/login"
+            className="pl-1 underline text-muted-foreground"
+          >
             Back to sign in
           </Link>
         </p>

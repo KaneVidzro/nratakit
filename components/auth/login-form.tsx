@@ -122,7 +122,7 @@ export const LoginForm = () => {
                   <div className="flex items-center justify-between">
                     <FormLabel>Password</FormLabel>
                     <Link
-                      href="/forgot-password"
+                      href="/auth/forgot-password"
                       className="text-muted-foreground hover:underline"
                     >
                       Forgot password?
@@ -170,7 +170,7 @@ export const LoginForm = () => {
         <p className="mt-5 text-sm text-center text-muted-foreground">
           Don&apos;t have an account yet?
           <Link
-            href="/signup"
+            href="/auth/signup"
             className="pl-1 underline font-medium hover:text-primary"
           >
             Sign up
