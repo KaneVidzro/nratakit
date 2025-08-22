@@ -14,18 +14,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { authClient } from "@/lib/auth/client";
-import { toast } from "sonner";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
 });
 
-export function ForgotPasswordForm() {
+export const ForgotPasswordForm = () => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -35,30 +31,8 @@ export function ForgotPasswordForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    await authClient.requestPasswordReset(
-      {
-        email: data.email,
-        redirectTo: "/reset-password",
-      },
-      {
-        onRequest: () => {
-          setLoading(true);
-        },
-        onResponse: () => {
-          setLoading(false);
-        },
-        onSuccess: () => {
-          toast.info("If the email exists, you will receive an email", {
-            duration: 10000, // Show for 10 seconds
-          });
-          router.push("/login");
-        },
-        onError: (ctx) => {
-          setLoading(false);
-          toast.error(ctx.error.message);
-        },
-      },
-    );
+    console.log(data);
+    setLoading(true);
   };
 
   return (
@@ -113,4 +87,4 @@ export function ForgotPasswordForm() {
       </div>
     </div>
   );
-}
+};

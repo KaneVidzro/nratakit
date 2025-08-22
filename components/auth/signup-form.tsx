@@ -16,8 +16,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
-import { signIn, signUp } from "@/lib/auth/client";
-import { toast } from "sonner";
 import { useState } from "react";
 
 const formSchema = z.object({
@@ -38,56 +36,8 @@ export function SignupForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    await signUp.email(
-      {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        callbackURL: "/login",
-      },
-      {
-        onSuccess: () => {
-          toast.success("Signed up successfully", {
-            description: "Please check your email to verify your account.",
-            duration: 10000, // Show for 10 seconds
-          });
-        },
-        onRequest: () => {
-          setLoading(true);
-        },
-        onResponse: () => {
-          setLoading(false);
-        },
-        onError: (ctx) => {
-          setLoading(false);
-          toast.error(ctx.error.message);
-        },
-      },
-    );
-  };
-
-  // Function to handle social sign-in
-  // This function is used to handle sign-in with Google or GitHub
-  const handleSocialSignIn = async (provider: "google" | "github") => {
-    await signIn.social(
-      {
-        provider,
-        callbackURL: "/account",
-        // newUserCallbackURL: "/new-user",
-      },
-      {
-        onRequest: () => {
-          setLoading(true);
-        },
-        onResponse: () => {
-          setLoading(false);
-        },
-        onError: (ctx) => {
-          setLoading(false);
-          toast.error(ctx.error.message);
-        },
-      },
-    );
+    console.log(data);
+    setLoading(true);
   };
 
   return (
@@ -105,7 +55,6 @@ export function SignupForm() {
             variant="outline"
             className="w-full gap-3 py-5"
             disabled={loading}
-            onClick={() => handleSocialSignIn("google")}
           >
             <Image
               src="/assets/icons/google.svg"
@@ -120,7 +69,6 @@ export function SignupForm() {
             variant="outline"
             className="w-full gap-3 py-5"
             disabled={loading}
-            onClick={() => handleSocialSignIn("github")}
           >
             <Image
               src="/assets/icons/github.svg"

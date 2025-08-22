@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { ResetPasswordForm } from "@/components/auth/ResetForm";
+import { NewPasswordForm } from "@/components/auth/new-password";
 
 export default function page() {
   return (
@@ -10,7 +10,7 @@ export default function page() {
         </div>
       }
     >
-      <ResetPasswordForm />
+      <NewPasswordForm />
     </Suspense>
   );
 }

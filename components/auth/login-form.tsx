@@ -16,18 +16,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { signIn } from "@/lib/auth/client";
-import { toast } from "sonner";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(8, "Minimum 8 characters long"),
   rememberMe: z.boolean().optional(),
 });
 
-export function LoginForm() {
+export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,51 +38,8 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    await signIn.email(
-      {
-        email: data.email,
-        password: data.password,
-        rememberMe: data.rememberMe,
-        callbackURL: "/account",
-      },
-      {
-        onRequest: () => {
-          setLoading(true);
-        },
-        onResponse: () => {
-          setLoading(false);
-        },
-        onSuccess: () => {
-          toast.success("Signed in successfully");
-        },
-        onError: (ctx) => {
-          setLoading(false);
-          toast.error(ctx.error.message);
-        },
-      },
-    );
-  };
-
-  const handleSocialSignIn = async (provider: "google" | "github") => {
-    await signIn.social(
-      {
-        provider,
-        callbackURL: "/account",
-        // newUserCallbackURL: "/new-user",
-      },
-      {
-        onRequest: () => {
-          setLoading(true);
-        },
-        onResponse: () => {
-          setLoading(false);
-        },
-        onError: (ctx) => {
-          setLoading(false);
-          toast.error(ctx.error.message);
-        },
-      },
-    );
+    console.log(data);
+    setLoading(true);
   };
 
   return (
@@ -102,7 +57,6 @@ export function LoginForm() {
             variant="outline"
             className="w-full gap-3 py-5"
             disabled={loading}
-            onClick={() => handleSocialSignIn("google")}
           >
             <Image
               src="/assets/icons/google.svg"
@@ -117,7 +71,6 @@ export function LoginForm() {
             variant="outline"
             className="w-full gap-3 py-5"
             disabled={loading}
-            onClick={() => handleSocialSignIn("github")}
           >
             <Image
               src="/assets/icons/github.svg"
@@ -226,4 +179,4 @@ export function LoginForm() {
       </div>
     </div>
   );
-}
+};
