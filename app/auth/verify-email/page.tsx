@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { NewPasswordForm } from '@/components/auth/new-password'
+import { VerifyEmail } from '@/components/auth/verify-email'
 
 export default function page() {
   return (
@@ -9,7 +9,7 @@ export default function page() {
           <p className="text-gray-500 text-center">Loading...</p>
         </div>
       }>
-      <NewPasswordForm />
+      <VerifyEmail />
     </Suspense>
   )
 }

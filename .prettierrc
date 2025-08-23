@@ -1,1 +1,10 @@
-{}
+{
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "bracketSameLine": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "printWidth": 80,
+  "trailingComma": "all",
+  "endOfLine": "auto"
+}

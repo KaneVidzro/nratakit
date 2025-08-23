@@ -1,5 +1,5 @@
-import React from "react";
-import { Container } from "@/components/widgets/container";
+import React from 'react'
+import { Container } from '@/components/widgets/container'
 
 export default function HomePage() {
   return (
@@ -12,5 +12,5 @@ export default function HomePage() {
         </p>
       </Container>
     </section>
-  );
+  )
 }

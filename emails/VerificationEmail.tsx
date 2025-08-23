@@ -12,12 +12,12 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
-import * as React from "react";
+} from '@react-email/components'
+import * as React from 'react'
 
 interface Props {
-  name: string;
-  url: string;
+  name: string
+  url: string
 }
 
 export const VerificationEmail = ({ name, url }: Props) => (
@@ -42,12 +42,12 @@ export const VerificationEmail = ({ name, url }: Props) => (
               aria-label="Verify your email"
               className="rounded bg-[#000000] px-5 py-3 text-center font-semibold text-[12px] text-white no-underline"
               href={url}
-            >
+              rel="noopener noreferrer">
               Verify email
             </Button>
           </Section>
           <Text className="break-words text-[14px] text-black leading-[24px]">
-            Or copy and paste this URL into your browser:{" "}
+            Or copy and paste this URL into your browser:{' '}
             <Link href={url} className="text-blue-600 no-underline">
               {url}
             </Link>
@@ -55,11 +55,10 @@ export const VerificationEmail = ({ name, url }: Props) => (
           <Hr className="mx-0 my-[26px] w-full border border-[#eaeaea] border-solid" />
           <Text className="text-[#999999] text-[13px] leading-[20px] mt-4">
             If you did not sign up for a nrataKit account, please ignore this
-            email or{" "}
+            email or{' '}
             <Link
               href="mailto:support@nrata.lol"
-              className="text-blue-600 no-underline"
-            >
+              className="text-blue-600 no-underline">
               contact our support team
             </Link>
             .
@@ -71,6 +70,6 @@ export const VerificationEmail = ({ name, url }: Props) => (
       </Body>
     </Tailwind>
   </Html>
-);
+)
 
-export default VerificationEmail;
+export default VerificationEmail

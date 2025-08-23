@@ -1,10 +1,10 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { Container } from "@/components/widgets/container";
+import * as React from 'react'
+import { cn } from '@/lib/utils'
+import { Container } from '@/components/widgets/container'
 
 function Footer() {
   return (
-    <footer className={cn("bg-gray-900 text-gray-300", "py-8")}>
+    <footer className={cn('bg-gray-900 text-gray-300', 'py-8')}>
       <Container className="flex flex-col items-center justify-between gap-4 sm:flex-row py-6">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} MySite. All rights reserved.
@@ -22,7 +22,7 @@ function Footer() {
         </div>
       </Container>
     </footer>
-  );
+  )
 }
 
-export { Footer };
+export { Footer }

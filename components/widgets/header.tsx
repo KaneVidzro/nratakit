@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Container } from "@/components/widgets/container";
+import * as React from 'react'
+import { Container } from '@/components/widgets/container'
 
 function Header() {
   return (
@@ -21,7 +21,7 @@ function Header() {
         </Container>
       </header>
     </div>
-  );
+  )
 }
 
-export { Header };
+export { Header }

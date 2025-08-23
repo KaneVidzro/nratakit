@@ -1,6 +1,6 @@
-import nodemailer from "nodemailer";
-import { render } from "@react-email/components";
-import * as React from "react";
+import nodemailer from 'nodemailer'
+import { render } from '@react-email/components'
+import * as React from 'react'
 
 // Create the transporter
 const transporter = nodemailer.createTransport({
@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
   },
-});
+})
 
 // Utility to send an email with text or HTML
 export async function sendMail({
@@ -20,15 +20,15 @@ export async function sendMail({
   subject,
   react,
 }: {
-  to: string;
-  subject: string;
-  react: React.ReactElement;
+  to: string
+  subject: string
+  react: React.ReactElement
 }) {
-  const html = await render(react);
+  const html = await render(react)
   return transporter.sendMail({
     from: `nrataKit <${process.env.SMTP_USER}>`,
     to,
     subject,
     html,
-  });
+  })
 }

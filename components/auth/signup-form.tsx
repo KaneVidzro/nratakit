@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -8,37 +8,57 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import Image from "next/image";
-import { useState } from "react";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import Image from 'next/image'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
-  name: z.string().min(3, "Minimum 3 characters long"),
+  name: z.string().min(3, 'Minimum 3 characters long'),
   email: z.string().email(),
-  password: z.string().min(8, "Minimum 8 characters long"),
-});
+  password: z.string().min(8, 'Minimum 8 characters long'),
+})
 
 export function SignupForm() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
     resolver: zodResolver(formSchema),
-  });
+  })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-    setLoading(true);
-  };
+    setLoading(true)
+
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+
+    const result = await res.json()
+
+    if (!res.ok) {
+      setLoading(false)
+      toast.error(result.error || 'Something went wrong')
+    } else {
+      setLoading(false)
+      toast.success(result.message || 'Signup successful')
+      router.push('/auth/login')
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4.5">
@@ -54,8 +74,7 @@ export function SignupForm() {
           <Button
             variant="outline"
             className="w-full gap-3 py-5"
-            disabled={loading}
-          >
+            disabled={loading}>
             <Image
               src="/assets/icons/google.svg"
               alt="google"
@@ -68,8 +87,7 @@ export function SignupForm() {
           <Button
             variant="outline"
             className="w-full gap-3 py-5"
-            disabled={loading}
-          >
+            disabled={loading}>
             <Image
               src="/assets/icons/github.svg"
               alt="github"
@@ -92,8 +110,7 @@ export function SignupForm() {
         <Form {...form}>
           <form
             className="w-full space-y-4"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
+            onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="name"
@@ -151,9 +168,8 @@ export function SignupForm() {
             <Button
               type="submit"
               className="mt-4 w-full py-5"
-              disabled={loading}
-            >
-              {loading ? "Loading..." : "Continue with Email"}
+              disabled={loading}>
+              {loading ? 'Loading...' : 'Continue with Email'}
             </Button>
           </form>
         </Form>
@@ -162,12 +178,11 @@ export function SignupForm() {
           Already have an account?
           <Link
             href="/auth/login"
-            className="pl-1 underline text-muted-foreground"
-          >
+            className="pl-1 underline text-muted-foreground">
             Log in
           </Link>
         </p>
       </div>
     </div>
-  );
+  )
 }

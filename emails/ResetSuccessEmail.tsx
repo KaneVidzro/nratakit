@@ -10,11 +10,11 @@ import {
   pixelBasedPreset,
   Tailwind,
   Text,
-} from "@react-email/components";
-import * as React from "react";
+} from '@react-email/components'
+import * as React from 'react'
 
 interface Props {
-  name: string;
+  name: string
 }
 
 export const ResetSuccessEmail = ({ name }: Props) => (
@@ -37,11 +37,10 @@ export const ResetSuccessEmail = ({ name }: Props) => (
           <Hr className="mx-0 my-[26px] w-full border border-[#eaeaea] border-solid" />
           <Text className="text-[#999999] text-[13px] leading-[20px] mt-4">
             If you did not perform this action, please contact our support team
-            immediately at{" "}
+            immediately at{' '}
             <Link
               href="mailto:support@nrata.lol"
-              className="text-blue-600 no-underline"
-            >
+              className="text-blue-600 no-underline">
               support@nrata.lol
             </Link>
             .
@@ -53,6 +52,6 @@ export const ResetSuccessEmail = ({ name }: Props) => (
       </Body>
     </Tailwind>
   </Html>
-);
+)
 
-export default ResetSuccessEmail;
+export default ResetSuccessEmail
