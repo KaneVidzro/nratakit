@@ -1,0 +1,47 @@
+version: 2
+updates:
+  # Enable npm (pnpm) dependency updates
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      # Check for updates every Monday at 09:00 (Africa/Accra)
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Africa/Accra'
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: 'all'
+    assignees:
+      - 'the3ash'
+    commit-message:
+      prefix: 'deps'
+      prefix-development: 'dev'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'automated'
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+    versioning-strategy: auto
+
+  # Enable GitHub Actions updates
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      # Check for updates every Monday at 09:00 (Africa/Accra)
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Africa/Accra'
+    open-pull-requests-limit: 10
+    assignees:
+      - 'the3ash'
+    commit-message:
+      prefix: 'github-actions'
+      include: 'scope'
+    labels:
+      - 'dependencies'
+      - 'automated'
+      - 'github-actions'
