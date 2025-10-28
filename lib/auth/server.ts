@@ -9,6 +9,7 @@ import ResetSuccessEmail from "@/emails/resetsuccess-email";
 import ResetPasswordEmail from "@/emails/resetpassword-email";
 
 export const auth = betterAuth({
+  secret: process.env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
